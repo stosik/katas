@@ -1,0 +1,66 @@
+package pl.stosik.mars.rover
+
+import pl.stosik.mars.rover.domain.rover.Rover
+import pl.stosik.mars.rover.domain.rover.RoverHeadingSouth
+import pl.stosik.mars.rover.domain.rover.RoverHeadingWest
+import pl.stosik.mars.rover.domain.value.Coordinates
+
+import spock.lang.Specification
+
+class RoverHeadingWestSpec extends Specification implements SampleRovers {
+
+    def "should rover be heading north when turned right" () {
+        given:
+        def rover = roverHeadingWest
+
+        when:
+        def expectedRover = rover.turnRight()
+
+        then:
+        expectedRover instanceof Rover
+    }
+
+    def "should rover be heading south when turned left" () {
+        given:
+        def rover = roverHeadingWest
+
+        when:
+        def expectedRover = rover.turnLeft()
+
+        then:
+        expectedRover instanceof RoverHeadingSouth
+    }
+
+    def "should give rover's direction name" () {
+        given:
+        def rover = roverHeadingWest
+
+        when:
+        def expectedRoverName = rover.name()
+
+        then:
+        expectedRoverName == "W"
+    }
+
+    def "should rover move forward" () {
+        given:
+        def rover = new RoverHeadingWest(new Coordinates(1, 1), marsWithoutObstacles)
+
+        when:
+        def expectedRover = rover.moveForward()
+
+        then:
+        expectedRover == new RoverHeadingWest(new Coordinates(0, 1), marsWithoutObstacles)
+    }
+
+    def "should rover move backward" () {
+        given:
+        def rover = new RoverHeadingWest(new Coordinates(1, 1), marsWithoutObstacles)
+
+        when:
+        def expectedRover = rover.moveBackward()
+
+        then:
+        expectedRover == new RoverHeadingWest(new Coordinates(2, 1), marsWithoutObstacles)
+    }
+}
